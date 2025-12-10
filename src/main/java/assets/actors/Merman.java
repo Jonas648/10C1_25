@@ -10,7 +10,7 @@ import javax.swing.ImageIcon;
  *
  * @author administrator
  */
-public class Merman extends NPC{
+public class Merman extends NPC {
     
     public Merman(int x, int y, ImageIcon img, String name) {
         super(x, y, img, name);

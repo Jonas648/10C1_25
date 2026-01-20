@@ -2,11 +2,17 @@ package czg.scene;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SceneStack {
 
-    private Scene last = null;
     private final JPanel contentPane;
+
+    /**
+     * Eigene Liste mit Szenen weil contentPane.getComponents()
+     */
+    private final List<Scene> scenes = new ArrayList<>();
 
     /**
      * Einen neuen Szenen-Stapel erstellen.
@@ -22,18 +28,41 @@ public class SceneStack {
      * @param scene Beliebige Szene
      */
     public void push(Scene scene) {
+        // Zum Fenster hinzufügen
         contentPane.add(scene);
-        contentPane.setComponentZOrder(scene, contentPane.getComponentCount()-1);
-        last = scene;
+
+        // Ggf. letzte Szene verdecken
+        Scene last = getLast();
+        if(last != null && last.canBeCovered) {
+            last.isCovered = true;
+        }
+
+        // Ins Fenster hinzufügen
+        scenes.add(scene);
+
+        // Update Z-Order of scenes. Highest z-order = drawn first, lowest z-order = draw last
+        for (int i = 0; i < scenes.size(); i++) {
+            contentPane.setComponentZOrder(scenes.get(i), scenes.size()-1-i);
+        }
     }
 
     /**
      * Entfernt die oberste Szene
      */
     public void pop() {
-        if(last != null)
+        Scene last = getLast();
+        if(last != null) {
+            // Vom Fenster entfernen
             contentPane.remove(last);
-        else
+            // Aus der Liste entfernen
+            scenes.remove(scenes.size()-1);
+
+            // Aktualisieren
+            last = getLast();
+            // Nicht mehr bedecken
+            if(last != null)
+                last.isCovered = false;
+        } else
             System.err.println("Es wurde versucht, eine Szene zu entfernen, obwohl keine Szenen mehr auf dem Stapel sind!");
     }
 
@@ -43,6 +72,10 @@ public class SceneStack {
                 ((Scene) c).update();
             }
         }
+    }
+
+    private Scene getLast() {
+        return scenes.isEmpty() ? null : scenes.get(scenes.size()-1);
     }
 
 }

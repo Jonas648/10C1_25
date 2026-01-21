@@ -61,6 +61,13 @@ public class SceneStack extends JPanel {
     }
 
     /**
+     * @return Szene oben auf dem Stapel
+     */
+    private BaseScene getTop() {
+        return scenes.isEmpty() ? null : scenes.get(scenes.size()-1);
+    }
+
+    /**
      * Logik-Code der einzelnen Szenen ausführen. Szenen die verdeckt sind
      * {@link BaseScene#isCovered} und für die {@link BaseScene#coverPausesLogic}
      * {@code true} ist, werden nicht beachtet.
@@ -91,13 +98,6 @@ public class SceneStack extends JPanel {
         scenes.stream()
                 .filter(scene -> !(scene.isCovered && scene.coverDisablesDrawing))
                 .forEach(scene -> scene.draw(g2));
-    }
-
-    /**
-     * @return Szene oben auf dem Stapel
-     */
-    private BaseScene getTop() {
-        return scenes.isEmpty() ? null : scenes.get(scenes.size()-1);
     }
 
 }

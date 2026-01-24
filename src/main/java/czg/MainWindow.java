@@ -1,8 +1,8 @@
 package czg;
 
-import czg.objects.ExampleObject;
+import czg.objects.ExamplePlayerObject;
+import czg.scenes.ExampleScene1;
 import czg.scenes.SceneStack;
-import czg.scenes.TitleScreenScene;
 import czg.util.Input;
 
 import javax.swing.*;
@@ -82,11 +82,10 @@ public class MainWindow extends JFrame implements Runnable {
         // Haupt-Schleife in einem neuen Thread starten
         new Thread(INSTANCE).start();
 
-        // DEBUG
-        TitleScreenScene titleScreenScene = new TitleScreenScene();
-        titleScreenScene.objects.add(new ExampleObject());
-        INSTANCE.SCENE_STACK.push(titleScreenScene);
-        System.out.println(titleScreenScene.objects.get(0));
+        // BEISPIEL-SZENE (nur zur Referenz, später entfernen!)
+        ExampleScene1 s1 = new ExampleScene1();
+        s1.objects.add(ExamplePlayerObject.INSTANCE);
+        INSTANCE.SCENE_STACK.push(s1);
     }
 
     /**

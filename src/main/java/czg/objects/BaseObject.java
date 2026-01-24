@@ -1,6 +1,7 @@
 package czg.objects;
 
 import czg.MainWindow;
+import czg.scenes.BaseScene;
 import czg.util.Input;
 import czg.util.Input.KeyState;
 
@@ -62,7 +63,8 @@ public abstract class BaseObject {
      * Die {@link Rectangle2D}-Klasse bietet viele nützliche Funktionen wie {@link Rectangle2D#contains(Point2D)} und
      * {@link Rectangle2D#contains(Rectangle2D)}. So kann geprüft werden, ob ein Objekt angeklickt wurde oder ob
      * es sich auf einem anderen Objekt befindet (dieses "berührt").
-     * @return Die Position sowie Größe des Objektes verpackt in ein {@link Rectangle2D}.
+     * Unterklassen von {@code BaseObject} können diese Methode auch überschreiben, <b>also auch {@code null} zurückgeben.</b>
+     * @return Die Position sowie Größe des Objektes verpackt in ein {@link Rectangle2D}
      */
     public Rectangle2D getHitbox() {
         return new Rectangle2D.Float(x, y, width, height);
@@ -98,8 +100,9 @@ public abstract class BaseObject {
 
     /**
      * Logik des Objektes. Muss von einer Unterklasse implementiert werden.
+     * @param scene Die Szene, in welcher sich das Objekt befindet
      */
-    public abstract void update();
+    public abstract void update(BaseScene scene);
 
     @Override
     public String toString() {

@@ -1,5 +1,7 @@
 package czg.objects;
 
+import czg.scenes.BaseScene;
+import czg.util.Images;
 import czg.util.Input;
 
 import java.awt.*;
@@ -9,14 +11,19 @@ import java.awt.event.KeyEvent;
  * Beispiel-Objekt mit einem Sprite, welches auf Maus- und Tasteneingaben reagiert sowie
  * die draw()-Funktion über das Zeichnen des Sprites hinaus erweitert.
  */
-public class ExampleObject extends BaseObject{
+public class ExamplePlayerObject extends BaseObject {
 
-    public ExampleObject() {
-        super("/assets/characters/example.png");
+    /**
+     * Eine von überall verfügbare Instanz der Spielfigur.
+     */
+    public static final ExamplePlayerObject INSTANCE = new ExamplePlayerObject();
+
+    private ExamplePlayerObject() {
+        super(Images.get("/assets/characters/example.png"));
     }
 
     @Override
-    public void update() {
+    public void update(BaseScene scene) {
         if(isClicked())
             System.out.println("KLICK!");
 

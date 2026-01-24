@@ -1,8 +1,10 @@
 package czg.objects;
 
+import czg.scenes.BaseScene;
 import czg.util.Images;
 
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 
 import static czg.MainWindow.HEIGHT;
 import static czg.MainWindow.WIDTH;
@@ -61,8 +63,17 @@ public class BackdropObject extends BaseObject {
         sprite = i;
     }
 
+    /**
+     * Der Hintergrund hat keine Hitbox, wird als in Kollisions-Überprüfungen ignoriert.
+     * @return {@code null}
+     */
     @Override
-    public void update() {}
+    public Rectangle2D getHitbox() {
+        return null;
+    }
+
+    @Override
+    public void update(BaseScene scene) {}
 
     @Override
     public void draw(Graphics2D g) {

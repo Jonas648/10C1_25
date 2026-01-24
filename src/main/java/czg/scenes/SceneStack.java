@@ -11,6 +11,9 @@ import java.util.List;
  * Der Szenen-Stapel enthält beliebig viele Szenen (siehe {@link BaseScene}), die übereinander
  * angezeigt werden. Dabei kann, dem Stapel-Modell folgend, immer nur eine neue Szene
  * über allen anderen hinzugefügt, sowie nur die oberste Szene entfernt werden.
+ * <br><b>WICHTIG:</b> Wird in einem Durchlauf eine Szene entfernt, wird deren {@link BaseScene#update()}-Methode möglicherweise
+ * trotzdem noch einmal ausgeführt, da der nun geänderte Szenen-Stapel erst beim nächsten durchlauf
+ * von der {@link #update()} berücksichtigt wird.
  */
 public class SceneStack extends JPanel {
 

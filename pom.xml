@@ -42,12 +42,6 @@
             <artifactId>ffsampledsp-complete</artifactId>
             <version>0.9.53</version>
         </dependency>
-        <!-- Source: https://mvnrepository.com/artifact/org.openjfx/javafx-media -->
-        <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-media</artifactId>
-            <version>21.0.10</version>
-        </dependency>
     </dependencies>
     <properties>
         <jdk.version>21</jdk.version>
@@ -91,25 +85,6 @@
                                     <artifact>com.tagtraum:ffsampledsp-complete:jar:*</artifact>
                                     <excludes>
                                         <exclude>META-INF/MANIFEST.MF</exclude>
-                                    </excludes>
-                                </filter>
-                                <filter>
-                                    <artifact>org.openjfx:javafx-*:jar:*</artifact>
-                                    <excludes>
-                                        <exclude>META-INF/MANIFEST.MF</exclude>
-                                    </excludes>
-                                </filter>
-                                <filter>
-                                    <!-- Behebt Fehlermeldungen -->
-                                    <artifact>org.openjfx:javafx-graphics:jar:*</artifact>
-                                    <excludes>
-                                        <!-- Wird bereits von javafx-base bereitgestellt -->
-                                        <exclude>META-INF/substrate/config/reflectionconfig.json</exclude>
-
-                                        <!-- Wird bereits von javafx-media bereitgestellt -->
-                                        <exclude>META-INF/substrate/config/jniconfig-x86_64-linux.json</exclude>
-                                        <exclude>META-INF/substrate/config/reflectionconfig-x86_64-linux.json</exclude>
-                                        <exclude>META-INF/substrate/config/resourcebundles</exclude>
                                     </excludes>
                                 </filter>
                             </filters>

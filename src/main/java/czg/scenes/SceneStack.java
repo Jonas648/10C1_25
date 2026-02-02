@@ -47,7 +47,7 @@ public class SceneStack extends JPanel {
         BaseScene last = getTop();
         if(last != null) {
             // Aus der Liste entfernen
-            scenes.remove(scenes.size()-1);
+            scenes.removeLast();
 
             // Aktualisieren
             last = getTop();
@@ -128,7 +128,7 @@ public class SceneStack extends JPanel {
      * @return Szene oben auf dem Stapel
      */
     private BaseScene getTop() {
-        return scenes.isEmpty() ? null : scenes.get(scenes.size()-1);
+        return scenes.isEmpty() ? null : scenes.getLast();
     }
 
     /**

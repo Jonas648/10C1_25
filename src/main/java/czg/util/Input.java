@@ -6,7 +6,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -89,7 +88,7 @@ public class Input implements KeyListener, MouseListener {
                         // Die gefilterten key codes in eine Liste speichern. Sonst
                         // würde die folgende forEach-Funktion die Daten der Maps ändern,
                         // während noch über die gefilterten Schlüssel iteriert wird
-                        .collect(Collectors.toList())
+                        .toList()
                         .forEach(
                                 code -> map.put(code, KeyState.HELD)
                         )

@@ -18,12 +18,12 @@ public class MainWindow extends JFrame implements Runnable {
     /**
      * Wie viele Bildschirm-Pixel das Fenster breit ist
      */
-    public static final int WIDTH = 140 * PIXEL_SCALE;
+    public static final int WIDTH = 240 * PIXEL_SCALE;
 
     /**
      * Wie viele Bildschirm-Pixel das Fenster hoch ist
      */
-    public static final int HEIGHT = 105 * PIXEL_SCALE;
+    public static final int HEIGHT = 135 * PIXEL_SCALE;
 
     /**
      * Einzelbilder pro Sekunde

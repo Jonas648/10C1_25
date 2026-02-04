@@ -2,6 +2,8 @@ package czg.sound;
 
 import javax.sound.sampled.*;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -31,6 +33,12 @@ public class StreamSound extends BaseSound {
 
 
     /**
+     * Speichert die länge von Sounds in Bytes
+     */
+    private static final Map<String, Long> trackLengthCache = new HashMap<>();
+
+
+    /**
      * {@link SourceDataLine}, in welche die gelesenen Audiodaten geschrieben werden
      */
     private final SourceDataLine dataLine;
@@ -49,7 +57,7 @@ public class StreamSound extends BaseSound {
     /**
      * Größe von {@link #inStream} in Bytes
      */
-    private int size = -1;
+    private long size;
 
     /**
      * Wie viele Bytes bereits vom Stream gelesen wurden
@@ -83,13 +91,8 @@ public class StreamSound extends BaseSound {
             dataLine.open(TARGET_AUDIO_FORMAT);
 
             // Länge ermitteln
-            // TODO: Am besten irgendwie die Längen aller Audio-Dateien im Vorfeld ermitteln?
-            Clip clip = AudioSystem.getClip();
-            clip.open(Sounds.getInputStream(audioFilePath));
-            size = clip.getFrameLength() * TARGET_AUDIO_FORMAT.getFrameSize();
-            clip.close();
-            System.gc();
-        } catch (LineUnavailableException | IOException e) {
+            size = getTrackLength(audioFilePath);
+        } catch (LineUnavailableException e) {
             throw new RuntimeException(e);
         }
 
@@ -125,6 +128,31 @@ public class StreamSound extends BaseSound {
     public void seek(float position) {
         seekTo.set(Float.floatToIntBits(position));
     }
+
+
+    /**
+     * Ermittelt, wie viele Bytes ein {@link AudioInputStream} von {@link Sounds#getInputStream(String)} liefert
+     * @param audioFilePath Pfad zur Audiodatei
+     * @return Die länge des {@link AudioInputStream}s in Bytes
+     */
+    private static long getTrackLength(String audioFilePath) {
+        return trackLengthCache.computeIfAbsent(audioFilePath, p -> {
+            long counter = 0;
+            long skipped;
+            try(AudioInputStream stream = Sounds.getInputStream(audioFilePath)) {
+                while ((skipped = stream.skip(Long.MAX_VALUE)) != 0) {
+                    counter += skipped;
+                }
+            } catch (IOException e) {
+                System.err.printf("IOException beim ermitteln der Größe von '%s', wird als %d behandelt: %s%n",
+                        audioFilePath, counter, e
+                );
+            }
+
+            return counter;
+        });
+    }
+
 
     /**
      * Funktion, die vom {@link #playbackThread} ausgeführt wird
@@ -200,7 +228,7 @@ public class StreamSound extends BaseSound {
                     playbackThread.wait();
                 }
             } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+                System.err.println("Konnte nicht auf das Fortsetzungs-Signal für den SoundStream-Thread warten: "+e);
             }
         }
     }

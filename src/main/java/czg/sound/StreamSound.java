@@ -57,7 +57,7 @@ public class StreamSound extends BaseSound {
     /**
      * Größe von {@link #inStream} in Bytes
      */
-    private long size;
+    private final long size;
 
     /**
      * Wie viele Bytes bereits vom Stream gelesen wurden
@@ -182,14 +182,14 @@ public class StreamSound extends BaseSound {
 
                             if (seekToByte > sound.bytesRead) {
                                 // Einfach die entsprechende Anzahl Bytes überspringen
-                                sound.inStream.skip(seekToByte - sound.bytesRead);
+                                sound.bytesRead += sound.inStream.skip(seekToByte - sound.bytesRead);
                             } else {
                                 // Alten Stream schließen
                                 sound.inStream.close();
                                 // Neuen Stream erstellen
                                 sound.inStream = Sounds.getInputStream(sound.audioFilePath);
                                 // Entsprechende Anzahl an Bytes überspringen
-                                sound.inStream.skip(seekToByte);
+                                sound.bytesRead += sound.inStream.skip(seekToByte);
                             }
                         }
 

@@ -117,20 +117,24 @@ public class StreamSound extends BaseSound {
     }
 
     @Override
-    public void setPlaying(boolean playing) {
+    public void setPlayingActual(boolean playing) {
         isPlaying.set(playing);
     }
 
     @Override
-    public boolean isPlaying() {
+    public boolean isPlayingActual() {
         return isPlaying.get();
     }
 
     @Override
-    public void seek(float position) {
+    public void seekActual(float position) {
         seekTo.set(Float.floatToIntBits(position));
     }
 
+    @Override
+    public String toString() {
+        return getClass().getTypeName()+"["+audioFilePath+"]";
+    }
 
     /**
      * Ermittelt, wie viele Bytes ein {@link AudioInputStream} von {@link Sounds#getInputStream(String)} liefert

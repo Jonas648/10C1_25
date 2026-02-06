@@ -19,6 +19,11 @@ public class ClipSound extends BaseSound {
     private final Clip clip;
 
     /**
+     * Pfad zur Audio-Datei. Wird von {@link #toString()} verwendet.
+     */
+    private final String audioFilePath;
+
+    /**
      * Wiedergabezustand
      */
     private boolean isPlaying;
@@ -31,7 +36,7 @@ public class ClipSound extends BaseSound {
     public ClipSound(String audioPath) {
         try {
             clip = AudioSystem.getClip();
-            clip.open(Sounds.getInputStream(audioPath));
+            clip.open(Sounds.getInputStream(audioFilePath = audioPath));
         } catch (IOException | LineUnavailableException e) {
             throw new RuntimeException(e);
         }
@@ -43,7 +48,7 @@ public class ClipSound extends BaseSound {
     }
 
     @Override
-    public void setPlaying(boolean playing) {
+    protected void setPlayingActual(boolean playing) {
         if(isPlaying()) {
             clip.start();
         } else {
@@ -52,12 +57,17 @@ public class ClipSound extends BaseSound {
     }
 
     @Override
-    public boolean isPlaying() {
+    protected boolean isPlayingActual() {
         return isPlaying;
     }
 
     @Override
-    public void seek(float position) {
+    protected void seekActual(float position) {
         clip.setMicrosecondPosition((long) (clip.getMicrosecondLength() * position));
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getTypeName()+"["+audioFilePath+"]";
     }
 }

@@ -56,6 +56,7 @@ public class MainWindow extends JFrame implements Runnable {
         // Tastatur- und Maus-Eingaben empfangen
         addKeyListener(Input.INSTANCE);
         addMouseListener(Input.INSTANCE);
+        addFocusListener(Input.INSTANCE);
 
         // Gesamtes Programm wird beendet, wenn das Fenster geschlossen wird
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -103,6 +104,7 @@ public class MainWindow extends JFrame implements Runnable {
 
         System.out.println("Haupt-Schleife beginnt");
 
+        //noinspection InfiniteLoopStatement
         while(true) {
             // Aktuelle Zeit messen
             currentTime = System.nanoTime();

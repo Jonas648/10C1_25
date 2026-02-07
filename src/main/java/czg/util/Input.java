@@ -1,9 +1,6 @@
 package czg.util;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
@@ -11,7 +8,7 @@ import java.util.stream.Stream;
 /**
  * Zentraler zugriff auf gedrückte Tasten der Tastatur und Maus
  */
-public class Input implements KeyListener, MouseListener {
+public class Input implements KeyListener, MouseListener, FocusListener {
 
     /**
      * Singleton der Klasse
@@ -120,6 +117,13 @@ public class Input implements KeyListener, MouseListener {
         keyStates.remove(keyEvent.getKeyCode());
     }
 
+    @Override
+    public void focusLost(FocusEvent e) {
+        // Beim Fokuswechsel sofort alle Tasten nicht mehr drücken
+        keyStates.clear();
+        mouseStates.clear();
+    }
+
 
     // Nicht verwendet
 
@@ -140,6 +144,11 @@ public class Input implements KeyListener, MouseListener {
 
     @Override
     public void mouseExited(MouseEvent mouseEvent) {
+
+    }
+
+    @Override
+    public void focusGained(FocusEvent e) {
 
     }
 }

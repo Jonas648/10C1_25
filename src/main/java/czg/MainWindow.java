@@ -1,5 +1,6 @@
 package czg;
 
+
 import czg.scenes.*;
 import czg.sound.EndOfFileBehaviour;
 import czg.sound.SoundGroup;
@@ -34,7 +35,16 @@ public class MainWindow extends JFrame implements Runnable {
      */
     public static final int FPS = 60;
 
+    /**
+     * Singleton des Fensters
+     */
     public static final MainWindow INSTANCE = new MainWindow();
+
+    /**
+     * Damit {@link Input.KeyState#fromTimePressed(long)} bei einem Durchlauf
+     * auch immer denselben {@link System#nanoTime()}-Wert benutzt
+     */
+    public long TIME_AT_UPDATE_START;
 
 
     /**
@@ -53,11 +63,6 @@ public class MainWindow extends JFrame implements Runnable {
         // Szenen-Stapel hinzufügen
         setContentPane(SceneStack.INSTANCE);
         SceneStack.INSTANCE.setBounds(0,0, WIDTH, HEIGHT);
-
-        // Tastatur- und Maus-Eingaben empfangen
-        addKeyListener(Input.INSTANCE);
-        addMouseListener(Input.INSTANCE);
-        addFocusListener(Input.INSTANCE);
 
         // Gesamtes Programm wird beendet, wenn das Fenster geschlossen wird
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -90,6 +95,13 @@ public class MainWindow extends JFrame implements Runnable {
         start.objects.add(ExamplePlayerObject.INSTANCE);
         INSTANCE.SCENE_STACK.push(physik);
         */
+
+        // BEISPIEL-SZENE (nur zur Referenz, später entfernen!)
+        SoundGroup.GLOBAL_SOUNDS.addSound(
+                new StreamSound("/assets/sound/hallway.ogg", true, EndOfFileBehaviour.LOOP)
+        );
+
+        // Haupt-Schleife in einem neuen Thread starten
 
         SwingUtilities.invokeLater(() -> {
             Insets insets = INSTANCE.getInsets();
@@ -132,13 +144,14 @@ public class MainWindow extends JFrame implements Runnable {
 
             // Alle nötigen Durchläufe abarbeiten
             while(delta >= 1) {
+                TIME_AT_UPDATE_START = System.nanoTime();
+
                 // Code für Szenen und Objekte ausführen
                 SceneStack.INSTANCE.update();
-                // Zuvor nur als KeyState.PRESSED eingetragene Tasten
-                // jetzt als KeyState.HELD behandeln
-                Input.INSTANCE.updatePressedToHeld();
                 // Grafik
                 SceneStack.INSTANCE.repaint();
+
+                Input.INSTANCE.updateToHeld();
 
                 // Durchlauf abgeschlossen, Zähler kann um 1 verringert werden
                 delta--;

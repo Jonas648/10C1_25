@@ -1,6 +1,5 @@
 package czg;
 
-import czg.objects.ExamplePlayerObject;
 import czg.scenes.InfogangScene;
 import czg.scenes.SceneStack;
 import czg.sound.EndOfFileBehaviour;
@@ -90,30 +89,20 @@ public class MainWindow extends JFrame implements Runnable {
         // Zeigen
         INSTANCE.setVisible(true);
 
+        // Musik
+        SoundGroup.GLOBAL_SOUNDS.addSound(new StreamSound("/assets/sound/hallway.ogg", true, EndOfFileBehaviour.LOOP));
+
+        // Erste Szene
         InfogangScene mgtest = new InfogangScene();
         SceneStack.INSTANCE.push(mgtest);
-        /*
-        BiogangScene start = new BiogangScene();
-        SceneStack.INSTANCE.push(start);
-        */
-        /*
-        PhysikgangScene physik = new PhysikgangScene();
-        start.objects.add(ExamplePlayerObject.INSTANCE);
-        INSTANCE.SCENE_STACK.push(physik);
-        */
 
-        // BEISPIEL-SZENE (nur zur Referenz, später entfernen!)
-        SoundGroup.GLOBAL_SOUNDS.addSound(
-                new StreamSound("/assets/sound/hallway.ogg", true, EndOfFileBehaviour.LOOP)
-        );
-
-        // Haupt-Schleife in einem neuen Thread starten
-
+        // Fenstergröße beheben
         SwingUtilities.invokeLater(() -> {
             Insets insets = INSTANCE.getInsets();
             INSTANCE.setSize(WIDTH+insets.left+insets.right, HEIGHT+insets.top+insets.bottom);
         });
 
+        // Haupt-Schleife in einem neuen Thread starten
         new Thread(INSTANCE, "GameLoop").start();
 
     }

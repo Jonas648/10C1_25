@@ -32,11 +32,14 @@ public class Images {
         missingTexture = new BufferedImage(PIXEL_SCALE, PIXEL_SCALE, BufferedImage.TYPE_INT_RGB);
         Graphics2D g = (Graphics2D) missingTexture.getGraphics();
 
+        // Schwarzer hintergrund
         g.setColor(Color.BLACK);
-        g.fillRect(0,0,PIXEL_SCALE/2,PIXEL_SCALE/2);
+        g.fillRect(0,0,PIXEL_SCALE,PIXEL_SCALE);
 
         g.setColor(Color.MAGENTA);
+        // Obere rechte Ecke
         g.fillRect(PIXEL_SCALE/2,0,PIXEL_SCALE/2,PIXEL_SCALE/2);
+        // Untere linke Ecke
         g.fillRect(0,PIXEL_SCALE/2,PIXEL_SCALE/2,PIXEL_SCALE/2);
     }
 

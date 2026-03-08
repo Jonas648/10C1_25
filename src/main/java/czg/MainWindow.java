@@ -90,7 +90,9 @@ public class MainWindow extends JFrame implements Runnable {
         INSTANCE.setVisible(true);
 
         // Musik
-        SoundGroup.GLOBAL_SOUNDS.addSound(new StreamSound("/assets/sound/hallway.ogg", true, EndOfFileBehaviour.LOOP));
+        StreamSound music = new StreamSound("/assets/sound/hallway.ogg", true, EndOfFileBehaviour.LOOP);
+        music.getVolumeControl().setValue(-16f);
+        SoundGroup.GLOBAL_SOUNDS.addSound(music);
 
         // Erste Szene
         InfogangScene mgtest = new InfogangScene();

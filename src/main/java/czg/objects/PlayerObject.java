@@ -8,6 +8,8 @@ import czg.scenes.BaseScene;
 import czg.util.Images;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -16,22 +18,21 @@ import java.awt.*;
 public class PlayerObject extends BaseObject{
     //Festlegen der benötigten Variablen (Lebenspunkte, veränderliche Charaktereigentschaften)
     public String name;
-    public int[] inventar;
+    public List<ItemObject> inventar;
     
-    public PlayerObject INSTANCE = new PlayerObject();
+    public static PlayerObject INSTANCE = new PlayerObject(Images.get("/assets/characters/PlayerBase.png"), 0, 0, "tmp", new ArrayList<>());
 
     public PlayerObject() {
         super(Images.get("/assets/characters/PlayerBase.png"));
     }
     
     
-    public PlayerObject(Image sprite, int x, int y, String name, int[] inventar){
+    public PlayerObject(Image sprite, int x, int y, String name, ArrayList<ItemObject> inventar){
           super (sprite, x, y);
           this.name = name;
           this.inventar = inventar;
-          
-      
     }
+
     @Override
     public void update(BaseScene scene) {
        // if(isClicked())

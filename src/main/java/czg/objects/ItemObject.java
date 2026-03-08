@@ -4,7 +4,9 @@
  */
 package czg.objects;
 
+import czg.objects.minigame_objects.MinigameNameObject;
 import czg.scenes.BaseScene;
+import czg.util.Images;
 
 import java.awt.*;
 
@@ -24,6 +26,15 @@ public class ItemObject extends BaseObject{
         this.level = level;
         this.name = name;
         this.ID = ID;
+    }
+
+    /**
+     * Gibt ein Item als Belohnung für das Beenden eines Minispiels zurück.
+     * @param minigame Das Minispiel, welches beendet wurde
+     * @param level Das Level, welches beendet wurde
+     */
+    public static ItemObject getMinigameReward(MinigameNameObject minigame, int level) {
+        return new ItemObject(Images.get("/assets/items/Atom.png"), 0, 0, 0, "tmp", 0); // temporär bitte ändern
     }
     
     @Override

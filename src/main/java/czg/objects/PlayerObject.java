@@ -1,11 +1,10 @@
 package czg.objects;
 
-import czg.scenes.BaseScene;
-import czg.scenes.InventarScene;
-import czg.scenes.SceneStack;
 import czg.util.Images;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -13,27 +12,30 @@ import java.awt.*;
  */
 public class PlayerObject extends BaseObject{
 
-    // Festlegen der benötigten Variablen (Lebenspunkte, veränderliche Charaktereigenschaften)
+    //Festlegen der benötigten Variablen (Lebenspunkte, veränderliche Charaktereigentschaften)
     public String name;
-    public int[] inventar;
-    
-    public static final PlayerObject INSTANCE = new PlayerObject();
+    //Anlegen einer Reihung "Inventar", in welchem die Items, auf die der Spieler zugreifen kann, gespeichert werden
+    public List<ItemObject> inventar;
 
+    public static PlayerObject INSTANCE = new PlayerObject(Images.get("/assets/characters/PlayerBase.png"), 0, 0, "tmp", new ArrayList<>());
 
     public PlayerObject() {
         super(Images.get("/assets/characters/PlayerBase.png"));
     }
-    
-    public PlayerObject(Image sprite, int x, int y, String name, int[] inventar){
-          super (sprite, x, y);
-          this.name = name;
-          this.inventar = inventar;
+
+    public PlayerObject(Image sprite, int x, int y, String name, ArrayList<ItemObject> inventar){
+        super (sprite, x, y);
+        this.name = name;
+        this.inventar = inventar;
     }
 
+    //Sobald der Spieler angeklickt wird, wird das Inventar geöffnet
+    /*
     @Override
     public void update(BaseScene scene) {
         if(isClicked())
             SceneStack.INSTANCE.push(new InventarScene());
     }
+     */
     
 }

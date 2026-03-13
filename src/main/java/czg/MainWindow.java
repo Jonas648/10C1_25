@@ -163,7 +163,7 @@ public class MainWindow extends JFrame implements Runnable {
                 // Grafik
                 SceneStack.INSTANCE.repaint();
 
-                Input.INSTANCE.updateToHeld();
+                Input.INSTANCE.update();
 
                 // Durchlauf abgeschlossen, Zähler kann um 1 verringert werden
                 delta--;

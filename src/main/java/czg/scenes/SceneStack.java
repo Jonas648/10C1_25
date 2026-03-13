@@ -33,7 +33,6 @@ public class SceneStack extends JPanel {
 
         // Tastatur- und Maus-Eingaben empfangen
         addMouseListener(Input.INSTANCE);
-        addMouseMotionListener(Input.INSTANCE);
     }
 
     /**

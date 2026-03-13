@@ -1,6 +1,7 @@
 package czg.util;
 
 import czg.MainWindow;
+import czg.scenes.SceneStack;
 import org.jetbrains.annotations.Nullable;
 
 import java.awt.*;
@@ -13,7 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * Zentraler zugriff auf gedrückte Tasten der Tastatur und Maus
  */
-public class Input implements KeyListener, MouseListener, MouseMotionListener, FocusListener {
+public class Input implements KeyListener, MouseListener, FocusListener {
 
     /**
      * Singleton der Klasse
@@ -102,6 +103,11 @@ public class Input implements KeyListener, MouseListener, MouseMotionListener, F
     private Point mousePosition = null;
 
     /**
+     * Maus-Position im vorherigen Frame
+     */
+    private Point lastMousePosition = null;
+
+    /**
      * Abfrage des Zustandes einer Tastatur-Taste
      * @param keyCode Siehe {@link KeyEvent}-Klasse. Z.B. {@link KeyEvent#VK_SPACE} für Leertaste.
      * @return Zustand der Taste. Siehe {@link KeyState}.
@@ -144,13 +150,23 @@ public class Input implements KeyListener, MouseListener, MouseMotionListener, F
     }
 
     /**
+     * Maus-Position im vorherigen Frame abfragen. Gibt eventuell {@code null} zurück.
+     * @return Die Maus-Positon im vorherigen Frame in Form eines {@link Point}
+     */
+    @Nullable
+    public Point getLastMousePosition() { return lastMousePosition; }
+
+    /**
      * Siehe {@link #keyButtonsToUpdateToHeld}, {@link #getKeyState(int)}
      */
-    public void updateToHeld() {
+    public void update() {
         keyButtonsToUpdateToHeld.forEach(code -> keyStates.put(code, MainWindow.INSTANCE.TIME_AT_UPDATE_START - HELD_THRESHOLD));
         mouseButtonsToUpdateToHeld.forEach(code -> mouseStates.put(code, MainWindow.INSTANCE.TIME_AT_UPDATE_START - HELD_THRESHOLD));
         keyButtonsToUpdateToHeld.clear();
         mouseButtonsToUpdateToHeld.clear();
+
+        lastMousePosition = mousePosition;
+        mousePosition = SceneStack.INSTANCE.getMousePosition();
     }
 
 
@@ -181,11 +197,6 @@ public class Input implements KeyListener, MouseListener, MouseMotionListener, F
         mouseStates.clear();
     }
 
-    @Override
-    public void mouseMoved(MouseEvent e) {
-        mousePosition = e.getPoint();
-    }
-
 
     // Nicht verwendet
 
@@ -214,8 +225,4 @@ public class Input implements KeyListener, MouseListener, MouseMotionListener, F
 
     }
 
-    @Override
-    public void mouseDragged(MouseEvent e) {
-
-    }
 }

@@ -24,8 +24,7 @@ public class MathegangScene extends BaseScene{
         objects.add(new  BackdropObject(Images.get("/assets/background/Mathegang.png")));
         
         //Einfügen des unsichtbaren Tür-Objektes auf Position der Tür
-        MatheraumScene mathe = new MatheraumScene();
-        objects.add(new InvisibleDoorObject(MainWindow.PIXEL_SCALE * 177, MainWindow.PIXEL_SCALE * 45,this, mathe));
+        objects.add(new InvisibleDoorObject(MainWindow.PIXEL_SCALE * 177, MainWindow.PIXEL_SCALE * 45,this, MatheraumScene::new));
         
         //Buttons zum Klicken in andere Gangszenen
         ButtonObject rechts = new ButtonObject(

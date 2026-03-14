@@ -21,8 +21,7 @@ public class BiogangScene extends BaseScene{
         objects.add(new BackdropObject(Images.get("/assets/background/Biogang.png")));
         
         //Einfügen des unsichtbaren Tür-Objektes auf Position der Tür
-        BioraumScene bio = new BioraumScene();
-        objects.add(new InvisibleDoorObject(656, 180,this, bio));
+        objects.add(new InvisibleDoorObject(656, 180,this, BioraumScene::new));
         
         
         

@@ -4,16 +4,15 @@
  */
 package czg.scenes;
 
-import static czg.MainWindow.HEIGHT;
-import java.awt.Color;
-import java.awt.Graphics2D;
-import czg.objects.BackdropObject;
-import static czg.MainWindow.WIDTH;
 import czg.objects.ButtonObject;
 import czg.objects.ItemObject;
 import czg.objects.PlayerObject;
 import czg.util.Images;
-import czg.util.Draw;
+
+import java.awt.*;
+
+import static czg.MainWindow.HEIGHT;
+import static czg.MainWindow.WIDTH;
 
 public class InventarScene extends BaseScene {
     
@@ -27,7 +26,7 @@ public class InventarScene extends BaseScene {
     
     public InventarScene() {
         ButtonObject exit = new ButtonObject (
-                Images.get("/assets/minigames/general/button_menu.png"),
+                Images.get("/assets/minigames/general/button_exit.png"),
             
                 () -> SceneStack.INSTANCE.pop()
         );  
@@ -39,7 +38,7 @@ public class InventarScene extends BaseScene {
     
     @Override
     public void draw(Graphics2D g) {
-
+        super.draw(g);
         
         g.setColor(new Color(64, 62, 57));
         g.fillRect(iLeft, iTop, iWidth, iHeight);

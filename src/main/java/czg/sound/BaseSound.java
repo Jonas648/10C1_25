@@ -90,10 +90,16 @@ public abstract class BaseSound {
     protected abstract void seekActual(double position);
 
     /**
-     * Die Wiedergabeposition abfragen
-     * @return Einen Wert zwischen 0 (Anfang) und 1 (Ende), jeweils inklusiv
+     * Die Länge des Sounds abfragen
+     * @return Länge des Sounds in Mikrosekunden
      */
-    public abstract double getPosition();
+    public abstract long getLengthMicroseconds();
+
+    /**
+     * Die Wiedergabeposition abfragen
+     * @return Die Wiedergabeposition in Mikrosekunden
+     */
+    public abstract long getPositionMicroseconds();
 
     /**
      * Stoppt den Sound. <b>Danach kann er nicht mehr verwendet werden.</b>

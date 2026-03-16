@@ -140,8 +140,13 @@ public class StreamSound extends BaseSound {
     }
 
     @Override
-    public double getPosition() {
-        return (bytesRead*1d) / size;
+    public long getLengthMicroseconds() {
+        return (long) ((size / ((TARGET_AUDIO_FORMAT.getFrameSize() * TARGET_AUDIO_FORMAT.getFrameRate()))) * 1e6);
+    }
+
+    @Override
+    public long getPositionMicroseconds() {
+        return (long) ((bytesRead / (TARGET_AUDIO_FORMAT.getFrameSize() * TARGET_AUDIO_FORMAT.getFrameRate())) * 1e6);
     }
 
     @Override

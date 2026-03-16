@@ -1,4 +1,4 @@
-package czg.objects.music_object;
+package czg.objects.music_loop_object;
 
 import czg.objects.BaseObject;
 import czg.scenes.BaseScene;
@@ -7,8 +7,7 @@ import czg.sound.BaseSound;
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Objekt zum nahtlosen Abspielen von Musik, die undefiniert oft
@@ -23,7 +22,7 @@ public class MusicLoopObject extends BaseObject {
 
     private static final Thread segmentChangeThread = new Thread(MusicLoopObject::segmentChangeThreadLoop, "MusicLoopObject-SegmentChangeThread");
 
-    private static final Set<MusicLoopObject> instances = ConcurrentHashMap.newKeySet();
+    private static final AtomicReference<MusicLoopObject> instance = new AtomicReference<>();
 
 
     /**
@@ -53,9 +52,8 @@ public class MusicLoopObject extends BaseObject {
      * @param marker Information, wann das nächste Segment gestartet werden soll
      */
     public MusicLoopObject addTrackSegment(BaseSound sound, SegmentChangeMarker marker) {
-        if(instances.contains(this)) {
-            throw new IllegalStateException("Zu einem bereits gestarteten MusicLoopObject können keine Segmente mehr hinzugefügt werden");
-        }
+        if(instance.get() != null)
+            throw new IllegalStateException("Es kann nur ein MusicLoopObject auf einmal existieren!");
 
         if(currentTrack == null) {
             currentTrack = sound;
@@ -68,10 +66,10 @@ public class MusicLoopObject extends BaseObject {
     }
 
     public MusicLoopObject start() {
-        // Nichts weiter machen, wenn das Objekt bereits
-        // in der Instanzen-Liste ist
-        if(! instances.add(this))
-            return this;
+        if(instance.get() != null)
+            throw new IllegalStateException("Es kann nur ein MusicLoopObject auf einmal existieren!");
+
+        instance.set(this);
 
         // Ggf. den Thread starten bzw. aufwecken
         if (!segmentChangeThread.isAlive()) {
@@ -90,28 +88,29 @@ public class MusicLoopObject extends BaseObject {
 
     @Override
     public void unload(BaseScene scene) {
-        instances.remove(this);
+        instance.set(null);
+        segmentChangeThread.interrupt();
     }
 
 
     private static void segmentChangeThreadLoop() {
+        MusicLoopObject currentInstance;
         while(true) {
-            while(! instances.isEmpty()) {
-                for(MusicLoopObject o : instances) {
-                    SegmentChangeMarker marker = o.segmentChangeMarkers.get(o.currentTrack);
-
-                    // Wenn die angegebene Zeit erreicht ist, wird das nächste
-                    // Segment gestartet. Das aktuelle Segment könnte dabei noch
-                    // weiter spielen.
-                    if(o.currentTrack.getPosition() >= marker.time()) {
-                        o.currentTrack = marker.next();
-                        o.currentTrack.setPlaying(true);
+            try {
+                while((currentInstance = instance.get()) != null) {
+                    SegmentChangeMarker marker = currentInstance.segmentChangeMarkers.get(currentInstance.currentTrack);
+                    try {
+                        Thread.sleep(marker.time());
+                        currentInstance.currentTrack = marker.next();
+                        currentInstance.currentTrack.setPlaying(true);
+                    } catch (InterruptedException x) {
+                        // sleep() wird ggf. mit interrupt() unterbrochen,
+                        // wenn die Szene entladen wird
+                        break;
                     }
                 }
-            }
 
-            try {
-                // Gibt es keine Objekte mehr zu verarbeiten, wartet der Thread
+                // Gibt es gerade kein MusicLoopObject, wartet der Thread
                 synchronized (segmentChangeThread) {
                     segmentChangeThread.wait();
                 }

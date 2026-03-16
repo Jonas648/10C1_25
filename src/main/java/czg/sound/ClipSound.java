@@ -76,8 +76,13 @@ public class ClipSound extends BaseSound {
     }
 
     @Override
-    public double getPosition() {
-        return (clip.getFramePosition()*1d) / clip.getFrameLength();
+    public long getLengthMicroseconds() {
+        return clip.getMicrosecondLength();
+    }
+
+    @Override
+    public long getPositionMicroseconds() {
+        return clip.getMicrosecondPosition();
     }
 
     @Override

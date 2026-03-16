@@ -6,8 +6,8 @@ package czg.scenes;
 
 import czg.objects.BackdropObject;
 import czg.objects.ButtonObject;
-import czg.objects.music_object.MusicLoopObject;
-import czg.objects.music_object.SegmentChangeMarker;
+import czg.objects.music_loop_object.MusicLoopObject;
+import czg.objects.music_loop_object.SegmentChangeMarker;
 import czg.sound.BaseSound;
 import czg.sound.EndOfFileBehaviour;
 import czg.sound.SoundGroup;
@@ -48,9 +48,9 @@ public class MatheraumScene extends BaseScene{
         BaseSound loop2 = sounds.get().addSound(new StreamSound("/assets/sound/fight_loop.ogg", false, EndOfFileBehaviour.RESTART_AND_PAUSE));
 
         MusicLoopObject music = new MusicLoopObject()
-                .addTrackSegment(intro, new SegmentChangeMarker(0.928560587d, loop1))
-                .addTrackSegment(loop1, new SegmentChangeMarker(0.972987461d, loop2))
-                .addTrackSegment(loop2, new SegmentChangeMarker(0.972987461d, loop1))
+                .addTrackSegment(intro, new SegmentChangeMarker(18_353, loop1))
+                .addTrackSegment(loop1, new SegmentChangeMarker(50_854, loop2))
+                .addTrackSegment(loop2, new SegmentChangeMarker(50_854, loop1))
                 .start();
 
         objects.add(music);

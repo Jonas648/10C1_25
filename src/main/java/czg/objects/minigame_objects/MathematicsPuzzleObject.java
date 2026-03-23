@@ -144,27 +144,50 @@ public enum MathematicsPuzzleObject {
     
     public boolean isSolutionValid(TangramPieceObject[] pieces, int x, int y, int width, int height) {
         for(double[][] solution : solutions) {
-            boolean isValid = true;
+            // Große Dreiecke
+            boolean normal =
+                matches(pieces[0], solution[0], 0.0, x, y, width, height) &&
+                matches(pieces[1], solution[1], 0.0, x, y, width, height);
+
+            boolean swapped =
+                matches(pieces[0], solution[1], -90.0, x, y, width, height) &&
+                matches(pieces[1], solution[0], 90.0, x, y, width, height);
+
+            if(!(normal || swapped)) continue;
+
+            // Mittleres Dreieck
+            if(!matches(pieces[2], solution[2], 0.0, x, y, width, height)) continue;
+
+            // Kleine Dreiecke
+            normal =
+                matches(pieces[3], solution[3], 0.0, x, y, width, height) &&
+                matches(pieces[4], solution[4], 0.0, x, y, width, height);
+
+            swapped =
+                matches(pieces[3], solution[4], -90.0, x, y, width, height) &&
+                matches(pieces[4], solution[3], 90.0, x, y, width, height);
+
+            if(!(normal || swapped)) continue;
+
+            // Parallelogramm
+            if(!matches(pieces[5], solution[5], 0.0, x, y, width, height)) continue;
+
+            // Quadrat
+            if(!matches(pieces[6], solution[6], 0.0, x, y, width, height)) continue;
             
-            for(int i = 0; i < pieces.length; i++) {
-                TangramPieceObject currentPiece = pieces[i];
-                if (
-                    currentPiece.x < x + solution[i][0]*width - MARGIN_OF_ERROR || currentPiece.x > x + solution[i][0]*width + MARGIN_OF_ERROR || // Überprüfung der X-Koordinate
-                    currentPiece.y < y + solution[i][1]*height - MARGIN_OF_ERROR || currentPiece.y > y + solution[i][1]*height + MARGIN_OF_ERROR || // Überprüfung der Y-Koordinate
-                    currentPiece.rotation != solution[i][2] // Überprüfung der Rotation
-                ) {
-                    isValid = false;
-                    break;
-                }
-            }
-            
-            if(isValid) return true;
+            return true;
         }
         
         return false;
     }
+
+    private boolean matches(TangramPieceObject piece, double[] solution, double rotOffset, int x, int y, int width, int height) {
+        return Math.abs(piece.x - (x + solution[0]*width)) <= MARGIN_OF_ERROR &&
+                Math.abs(piece.y - (y + solution[1]*height)) <= MARGIN_OF_ERROR &&
+                piece.rotation == solution[2] + rotOffset;
+    }
     
-    public void setGivenPieces(TangramPieceObject[] pieces, int x, int y, int scale) {
+    private void setGivenPieces(TangramPieceObject[] pieces, int x, int y, int scale) {
         int[] idx = new int[amountOfGivenPieces];
         for(int i = 0; i < amountOfGivenPieces; i++) {
             idx[i] = -1;

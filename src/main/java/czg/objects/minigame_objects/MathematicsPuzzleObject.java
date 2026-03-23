@@ -53,15 +53,17 @@ public enum MathematicsPuzzleObject {
         return PUZZLES[level][r];
     }
     
-    public boolean isSolutionValid(TangramPieceObject[] pieces) {
+    public boolean isSolutionValid(int x, int y, int scale) {
+        TangramPieceObject[] pieces = TangramPieceObject.PIECES;
+        
         for(int[][] solution : this.solutions) {
             boolean isValid = true;
             
             for(int i = 0; i < pieces.length; i++) {
                 TangramPieceObject currentPiece = pieces[i];
                 if(
-                    currentPiece.x < solution[i][0] - marginOfError || currentPiece.x > solution[i][0] + marginOfError || // Überprüfung der X-Koordinate
-                    currentPiece.y < solution[i][1] - marginOfError || currentPiece.y > solution[i][1] + marginOfError || // Überprüfung der Y-Koordinate
+                    currentPiece.x < x + solution[i][0]*scale - marginOfError || currentPiece.x > x + solution[i][0]*scale + marginOfError || // Überprüfung der X-Koordinate
+                    currentPiece.y < y + solution[i][1]*scale - marginOfError || currentPiece.y > y + solution[i][1]*scale + marginOfError || // Überprüfung der Y-Koordinate
                     currentPiece.rotation == solution[i][2] // Überprüfung der Rotation
                 ) isValid = false;
             }

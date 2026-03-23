@@ -14,6 +14,7 @@ import java.awt.image.BufferedImage;
 import java.util.*;
 import java.util.List;
 import java.util.function.Function;
+import java.util.Random;
 
 import static czg.MainWindow.PIXEL_SCALE;
 
@@ -23,7 +24,7 @@ import static czg.MainWindow.PIXEL_SCALE;
 public class PlayerObject extends BaseObject{
 
     //Anlegen einer Reihung "Inventar", in welchem die Items, auf die der Spieler zugreifen kann, gespeichert werden
-    public List<ItemObject> inventar = new ArrayList<>(List.of(ItemObject.ATOM, ItemObject.BRENNER));
+    public List<ItemObject> inventar = new ArrayList<>();
 
     // Standardfarben
     public static final SaveFile defaultColors = new SaveFile(
@@ -79,13 +80,19 @@ public class PlayerObject extends BaseObject{
         width = baseSprite.getWidth(null) * PIXEL_SCALE;
         height = baseSprite.getHeight(null) * PIXEL_SCALE;
 
-        x = 100;
-        y = MainWindow.HEIGHT - 200;
-
         // Tatsächlichen Sprite als zunächst leeres Bild erstellen
         sprite = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         // Farben anwenden
         updateSprite();
+    }
+    
+    //Funktion zum Festlegen einer zufälligen x-Koordinate für die Spieler-Figur
+    public static int GetRandomX(){
+        Random r = new Random();
+        int min = 35;
+        int max = 790;
+        int position = r.nextInt((max - min) + 1) + min;
+        return position;
     }
 
     /*

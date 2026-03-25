@@ -10,7 +10,6 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import static czg.MainWindow.*;
-import czg.util.Images;
 import java.awt.image.BufferedImage;
 
 /**
@@ -114,27 +113,6 @@ public class BaseObject {
         }
 
         return false;
-    }
-    
-    /**
-     * Dreht das Bild des Objektes und passt die Objektgröße der neuen Bildgröße an.
-     * @param degree Drehung in Grad
-     */
-    public void rotate(double degree) {
-        double scaleX = (double) this.width / sprite.getWidth(null);
-        double scaleY = (double) this.height / sprite.getHeight(null);
-
-        Image rotatedSprite = Images.rotateImage(sprite, degree);
-        
-        Point imageCenter = new Point(this.x + this.width/2, this.y + this.height/2);
-        
-        this.width = (int) (rotatedSprite.getWidth(null) * scaleX);
-        this.height = (int) (rotatedSprite.getHeight(null) * scaleY);
-        
-        this.sprite = rotatedSprite;
-        
-        this.x = imageCenter.x -this.width/2;
-        this.y = imageCenter.y - this.height/2;
     }
 
     /**

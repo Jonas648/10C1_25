@@ -179,9 +179,11 @@ public enum MathematicsPuzzleObject {
             if(!(normal || swapped)) continue;
 
             // Parallelogramm
+            pieces[5].rotation %= 180;
             if(!matches(pieces[5], solution[5], 0.0, x, y, width, height)) continue;
 
             // Quadrat
+            pieces[6].rotation %= 90;
             if(!matches(pieces[6], solution[6], 0.0, x, y, width, height)) continue;
             
             return true;

@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package czg.objects.minigame_objects;
 
 import czg.objects.BaseObject;
@@ -16,14 +12,16 @@ import java.awt.event.MouseEvent;
 
 public class TangramPieceObject extends BaseObject {
     public final int ID;
+    private final String SPRITE_PATH;
     public double rotation;
-    public  MathematicsLevelScene levelScene;
+    public MathematicsLevelScene levelScene;
 
     private boolean isDragged = false;
 
     private TangramPieceObject(int id) {
        super(Images.get(String.format("/assets/minigames/mathematics/tangram_piece_%02d.png", id)));
        this.ID = id;
+       this.SPRITE_PATH = String.format("/assets/minigames/mathematics/tangram_piece_%02d.png", id);
        this.rotation = 0;
        this.levelScene = null;
     }
@@ -90,23 +88,29 @@ public class TangramPieceObject extends BaseObject {
         pieces[6].setRotation(0);
     }
 
-    public void rotateAndUpdate(double degree) {
+    public void rotate(double degree) {
         rotation += degree;
 
-        if(this.ID == 6)
-            this.rotation %= 90;
-        else if(this.ID == 5)
-            this.rotation %= 180;
-        else
-            this.rotation %= 360;
+        rotation %= 360;
 
-        rotate(degree);
+        double scaleX = (double) this.width / sprite.getWidth(null);
+        double scaleY = (double) this.height / sprite.getHeight(null);
+
+        Image rotatedSprite = Images.rotateImage(Images.get(SPRITE_PATH), rotation);
+
+        Point imageCenter = new Point(this.x + this.width/2, this.y + this.height/2);
+
+        this.width = (int) (rotatedSprite.getWidth(null) * scaleX);
+        this.height = (int) (rotatedSprite.getHeight(null) * scaleY);
+
+        this.sprite = rotatedSprite;
+
+        this.x = imageCenter.x -this.width/2;
+        this.y = imageCenter.y - this.height/2;
     }
 
     public void setRotation(double degree) {
         double currentRotation = rotation;
-
-        rotation = degree;
 
         rotate(degree - currentRotation);
     }
@@ -140,7 +144,7 @@ public class TangramPieceObject extends BaseObject {
 
             // Rotieren des Objektes
             if(Input.INSTANCE.getKeyState(KeyEvent.VK_R) == Input.KeyState.PRESSED) {
-                rotateAndUpdate(90);
+                rotate(45);
             }
         }
     }

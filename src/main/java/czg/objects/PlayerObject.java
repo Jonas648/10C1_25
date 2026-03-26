@@ -107,6 +107,19 @@ public class PlayerObject extends BaseObject{
         LehrerObject lehrer = new LehrerObject(Images.get("/assets/characters/bre.png"), 10, 20, "Physik", 10, 2, testitems);
         lehrer.verteidigung(level);
     }
+    
+    public void verteidigung(int schaden) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Du kriegst " + String.valueOf(schaden) + " Schaden");
+        System.out.println("Welches Item?");
+        String ausgewaehlt = scanner.nextLine();
+        int level = ItemObject.valueOf(ausgewaehlt).LEVEL;
+        
+        schaden -= level;
+        if (schaden < 0) {
+            schaden = 0;
+        }
+    }
 
 
     /**

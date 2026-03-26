@@ -1,6 +1,7 @@
 package czg.objects;
 
 import czg.scenes.BaseScene;
+import czg.objects.ItemObject;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -44,6 +45,18 @@ public class LehrerObject extends BaseObject{
 
         hp -= schaden;
 
+    }
+    
+    public void angriff() {
+        Random rand = new Random();
+        int move = rand.nextInt(4);
+        int schaden;
+        ItemObject item_lehrer;
+        
+        item_lehrer = lehrer_items.get(move);
+        schaden = item_lehrer.LEVEL;
+        
+        PlayerObject.INSTANCE.verteidigung(schaden);
     }
 
     @Override

@@ -43,14 +43,6 @@ public class MainWindow extends JFrame implements Runnable {
     public static final MainWindow INSTANCE = new MainWindow();
 
     /**
-     * Ob Debugging-Informationen angezeigt werden sollen.
-     * <br> {@code 0}: Nichts anzeigen
-     * <br> {@code 1}: Szenen-Stapel in Textform anzeigen
-     * <br> {@code 2}: Objekte mit Hitboxen und Namen anzeigen
-     */
-    public static int debugDrawMode = 0;
-
-    /**
      * Damit {@link Input.KeyState#fromTimePressed(long)} bei einem Durchlauf
      * auch immer denselben {@link System#nanoTime()}-Wert benutzt
      */
@@ -101,7 +93,7 @@ public class MainWindow extends JFrame implements Runnable {
 
         // Musik
         StreamSound music = new StreamSound("/assets/sound/hallway.ogg", true, EndOfFileBehaviour.LOOP);
-        music.getVolumeControl().setValue(-16f);
+        music.getVolumeControl().setValue(-8f);
         SoundGroup.GLOBAL_SOUNDS.addSound(music);
 
         //Startszene
@@ -166,7 +158,7 @@ public class MainWindow extends JFrame implements Runnable {
                         SoundGroup.GLOBAL_SOUNDS.resume();
                 }
                 if(Input.INSTANCE.getKeyState(KeyEvent.VK_D) == Input.KeyState.PRESSED)
-                    debugDrawMode = (debugDrawMode + 1)%3;
+                    Input.debugDrawMode = (Input.debugDrawMode + 1)%3;
 
                 // Grafik
                 SceneStack.INSTANCE.repaint();

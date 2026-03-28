@@ -129,7 +129,7 @@ public class BaseObject {
                 null
         );
 
-        if(debugDrawMode == 2) {
+        if(Input.debugDrawMode == 2) {
             // Position & hitbox
             g.setColor(Color.RED);
             g.fillRect(x-1, y-1, 3, 3);

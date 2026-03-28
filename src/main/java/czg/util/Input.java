@@ -20,17 +20,25 @@ public class Input implements KeyListener, MouseListener, FocusListener {
      * Singleton der Klasse
      */
     public static final Input INSTANCE = new Input();
-
     /**
      * Soll nicht von außerhalb instanziiert werden
      */
     private Input() {}
+
 
     /**
      * Wie lange eine Taste gedrückt sein muss, um als {@link KeyState#HELD}
      * und nicht mehr als {@link KeyState#PRESSED} gesehen zu werden.
      */
     private static final long HELD_THRESHOLD = 100_000_000;
+
+    /**
+     * Ob Debugging-Informationen angezeigt werden sollen.
+     * <br> {@code 0}: Nichts anzeigen
+     * <br> {@code 1}: Szenen-Stapel in Textform anzeigen
+     * <br> {@code 2}: Objekte mit Hitboxen und Namen anzeigen
+     */
+    public static int debugDrawMode = 0;
 
     /**
      * Zustände einer Taste

@@ -93,7 +93,7 @@ public enum MathematicsPuzzle {
     /**
      * Level 2: Haus
      */
-    P_10("/assets/minigames/mathematics/puzzle_2_1.png", 7, new double[][][] {
+    P_10("/assets/minigames/mathematics/puzzle_2_1.png", 1, new double[][][] {
         {
             {0.13, 0.59, 180.0},    // Großes Dreieck 1
             {0.26, 0.17, -90.0},    // Großes Dreieck 2
@@ -116,7 +116,7 @@ public enum MathematicsPuzzle {
     /**
      * Level 2: Wurfstern TODO: weitere Lösungen hinzufügen (oder verwerfen)
      */
-    P_11("/assets/minigames/mathematics/puzzle_2_2.png", 7, new double[][][] {
+    P_11("/assets/minigames/mathematics/puzzle_2_2.png", 1, new double[][][] {
         {
             {0.0, 0.16, 0.0},       // Großes Dreieck 1
             {0.16, 0.32, 0.0},      // Großes Dreieck 2
@@ -130,7 +130,7 @@ public enum MathematicsPuzzle {
     /**
      * Level 2: TODO
      */
-    P_12("/assets/minigames/mathematics/puzzle_1_1.png", 7, new double[][][] {
+    P_12("/assets/minigames/mathematics/puzzle_1_1.png", 1, new double[][][] {
         {
             {0.33, 0.4, 0.0},
             {0.0, 0.0, 180.0},

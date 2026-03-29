@@ -14,9 +14,25 @@ import java.util.Random;
 public enum MathematicsPuzzle {
 
     /**
+     * Ausgangszustand: Verpackt
+     * Speichert zusätzlich noch die Breite und Höhe der Steine
+     */
+    P_INIT("/assets/minigames/mathematics/tangram_packed.png", 7, new double[][][] {
+        {
+            {0.0, 0.0, 0.0, 1.0, 0.5},
+            {0.0, 0.0, 0.0, 0.5, 1.0},
+            {0.5, 0.5, 0.0, 0.5, 0.5},
+            {0.0, 0.75, 0.0, 0.5, 0.25},
+            {0.5, 0.25, 0.0, 0.25, 0.5},
+            {0.75, 0.0, 0.0, 0.25, 0.75},
+            {0.25, 0.5, 0.0, 0.5, 0.5}
+        }
+    }),
+
+    /**
      * Level 1: Herz
      */
-    P_00("/assets/minigames/mathematics/puzzle_1_1.png", 7, new double[][][] {
+    P_00("/assets/minigames/mathematics/puzzle_1_1.png", 2, new double[][][] {
         {
             {0.33, 0.4, 0.0},
             {0.0, 0.0, 180.0},
@@ -39,7 +55,7 @@ public enum MathematicsPuzzle {
     /**
      * Level 1: Schwan
      */
-    P_01("/assets/minigames/mathematics/puzzle_1_2.png", 7, new double[][][] {
+    P_01("/assets/minigames/mathematics/puzzle_1_2.png", 2, new double[][][] {
         {
             {0.0, 0.55, 0.0},
             {0.2, 0.55, 45.0},
@@ -53,7 +69,7 @@ public enum MathematicsPuzzle {
     /**
      * Level 1: Berg (aktuell noch Schwan)
      */
-    P_02("/assets/minigames/mathematics/puzzle_1_2.png", 7, new double[][][] {
+    P_02("/assets/minigames/mathematics/puzzle_1_2.png", 2, new double[][][] {
         {
             {0.0, 0.55, 0.0},
             {0.2, 0.55, 45.0},
@@ -295,11 +311,19 @@ public enum MathematicsPuzzle {
             pieces[i].setRotation(solutions[rSolution][i][2]);
             pieces[i].x = (int) (x + solutions[rSolution][i][0]*width);
             pieces[i].y = (int) (y + solutions[rSolution][i][1]*height);
+
+            // Höhe und Breite der Steine zurücksetzten, falls das Puzzle der Ausgangszustand ist
+            if(this == P_INIT) {
+                pieces[i].width = (int) (solutions[rSolution][i][3]*width);
+                pieces[i].height = (int) (solutions[rSolution][i][4]*height);
+                pieces[i].originalWidth = pieces[i].width;
+                pieces[i].originalHeight = pieces[i].height;
+            }
         }
     }
     
     public void reset(TangramPieceObject[] pieces, int x, int y, int size, int px, int py, int pwidth, int pheight) {
-        TangramPieceObject.generatePacked(pieces, x, y, size, size);
+        P_INIT.setGivenPieces(pieces, x, y, size, size);
         setGivenPieces(pieces, px, py, pwidth, pheight);
     }
 }

@@ -89,6 +89,7 @@ Diese Tabellen werden den Spielenden, aufgrund der ansprechenderen Gestaltung, i
 Ebenfalls im Sinne der Gestaltung wurde auf die Konvention, die Eingänge auf der linken Seite und die Ausgänge auf der rechten Seite darzustellen, verzichtet.
 In der Abbildung \ref{tab:wahrheitswerttabellen01} ist dies beispielhaft anhand der ersten Wahrheitswerttabelle ($G = \land$) zu erkennen.
 
+<<<<<<< HEAD
 \subsubsection{Level 2}
 
 Im zweiten Level bestehen die Schaltkreise ebenfalls aus zwei Eingängen, sowie einem Ausgang.
@@ -159,3 +160,31 @@ Für die Rätsel des zweiten Levels wurden folgende Tabellen festgelegt:
 
 Diese Tabellen werden den Spielenden, aufgrund der ansprechenderen Gestaltung, in Form einer Abbildung präsentiert.
 In der Abbildung \ref{tab:wahrheitswerttabellen01} ist dies beispielhaft anhand der ersten Wahrheitswerttabelle ($G = \land$) zu erkennen.
+
+\begin{tabular}{|c|c|c|} 
+    \hline
+    $x_1$ & $x_2$ & $y$ \\
+    \hline\hline
+    $0$ & $0$ & $1$ \\
+    $0$ & $1$ & $1$ \\
+    $1$ & $0$ & $1$ \\
+    $1$ & $1$ & $0$ \\
+    \hline
+\end{tabular}
+
+Endgültige Liste einzigartiger Y-Vektoren mit Kombinationen:
+
+    AND → NAND : 1,1,1,0
+    AND → NOR : 1,0,1,0
+    AND → XNOR : 1,0,1,1
+    OR → XOR : 0,0,1,0
+    OR → XNOR : 1,1,0,1
+    NAND → AND : 1,1,0,0
+    NAND → OR : 1,1,1,1
+    NAND → NOR : 0,0,0,1
+    NOR → AND : 1,0,0,0
+    NOR → XNOR : 0,1,1,1
+    XOR → AND : 0,1,0,0
+    XOR → NAND : 1,0,1,1
+    XOR → XNOR : 1,0,0,1
+    XNOR → NAND : 0,1,1,0

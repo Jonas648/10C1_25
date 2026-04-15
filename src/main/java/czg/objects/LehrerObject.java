@@ -4,7 +4,6 @@ import czg.scenes.BaseScene;
 import czg.objects.ItemObject;
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -13,7 +12,7 @@ public class LehrerObject extends BaseObject{
     public final int LEVEL;
     public int hp;
     public final String FACHSCHAFT;
-    public List<ItemObject> lehrer_items;
+    public final List<ItemObject> lehrer_items;
 
     public LehrerObject(Image sprite, int x, int y, String FACHSCHAFT, int hp, int LEVEL, List<ItemObject> lehrer_items) {
         super(sprite, x, y);
@@ -50,13 +49,13 @@ public class LehrerObject extends BaseObject{
     public void angriff() {
         Random rand = new Random();
         int move = rand.nextInt(4);
-        int schaden;
+        int level;
         ItemObject item_lehrer;
         
         item_lehrer = lehrer_items.get(move);
-        schaden = item_lehrer.LEVEL;
+        level = item_lehrer.LEVEL;
         
-        PlayerObject.INSTANCE.verteidigung(schaden);
+        PlayerObject.INSTANCE.verteidigung(level);
     }
 
     @Override

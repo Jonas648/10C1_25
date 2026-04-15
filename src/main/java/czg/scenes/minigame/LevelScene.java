@@ -8,8 +8,9 @@ import czg.scenes.cover_settings.CoverSettings;
 import czg.util.Images;
 
 /**
- * Basis-Klasse für Levels von Minigames. Enthält bereits Buttons zum
- * Beenden des gesamten Minigames und für die Levelauswahl.
+ * Basis-Klasse für Levels von Minigames. Enthält bereits einen
+ * Hintergrund sowie Buttons zum Beenden des gesamten Minigames
+ * und für die Levelauswahl.
  */
 public abstract class LevelScene extends BaseScene {
 
@@ -74,7 +75,8 @@ public abstract class LevelScene extends BaseScene {
      */
     public void levelWon() {
         SceneStack.INSTANCE.push(new MinigameEndScene(true, LEVEL, REWARD));
-        PlayerObject.INSTANCE.inventar.add(REWARD);
+        if(! PlayerObject.INSTANCE.inventar.contains(REWARD))
+            PlayerObject.INSTANCE.inventar.add(REWARD);
     }
 
     /**

@@ -1,5 +1,6 @@
 package czg.objects.minigame;
 
+import czg.MainWindow;
 import czg.objects.BaseObject;
 import czg.scenes.BaseScene;
 import czg.scenes.minigame.MathematicsLevelScene;
@@ -150,9 +151,18 @@ public class TangramPieceObject extends BaseObject {
         }
 
         if (isDragged) {
-            // Aktualisierung der Position
-            this.x += mousePos.x - lastMousePos.x;
-            this.y += mousePos.y - lastMousePos.y;
+            // Berechnung der neuen Position
+            int newPosX = x + mousePos.x - lastMousePos.x;
+            int newPosY = y + mousePos.y - lastMousePos.y;
+            // Überprüfung, ob die neue Position innerhalb des Bildschirms liegt
+            if (
+                newPosX > 0 && newPosX + width < MainWindow.WIDTH &&
+                newPosY > 0 && newPosY + height < MainWindow.HEIGHT
+            ) {
+                // Aktualisierung der Position
+                x = newPosX;
+                y = newPosY;
+            }
 
             // Rotieren des Objektes
             if(Input.INSTANCE.getKeyState(KeyEvent.VK_R) == Input.KeyState.PRESSED) {

@@ -10,9 +10,6 @@ import czg.util.Images;
  */
 public class KampfScene extends BaseScene{
 
-    private int LehrerLeben;
-    private int PlayerLeben;
-
 
     public KampfScene(String FACHSCHAFT){
         super();
@@ -22,8 +19,8 @@ public class KampfScene extends BaseScene{
         
         SceneStack.INSTANCE.push(new InventarScene());
 
-        LehrerLeben = 10;
-        PlayerLeben = 10;
+        int LehrerLeben = 10;
+        int PlayerLeben = 10;
 
         LehrerObject Lehrer = new LehrerObject(10, 10, FACHSCHAFT, LehrerLeben, 2);
 

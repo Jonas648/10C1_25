@@ -95,17 +95,15 @@ public class PlayerObject extends BaseObject{
     /*
     Bitti bitti nicht noch mal löschen...
     */
-    public void angriff() {
+    public static int angriff() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Welches Item?");
         String ausgewaehlt = scanner.nextLine();
         int level = ItemType.valueOf(ausgewaehlt).LEVEL;
-        List<ItemType> testitems = Arrays.asList(ItemType.NEWTONSAPFEL, ItemType.ATOM, ItemType.CHROME, ItemType.BSOD);
-        LehrerObject lehrer = new LehrerObject(Images.get("/assets/characters/bre.png"), 10, 20, "Physik", 10, 2, testitems);
-        lehrer.verteidigung(level);
+        return level;
     }
     
-    public void verteidigung(int schaden) {
+    public static int verteidigung(int schaden) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Du kriegst " + schaden + " Schaden");
         System.out.println("Welches Item?");
@@ -116,6 +114,8 @@ public class PlayerObject extends BaseObject{
         if (schaden < 0) {
             schaden = 0;
         }
+
+        return schaden;
     }
 
 

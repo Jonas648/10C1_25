@@ -22,10 +22,13 @@ public class KampfScene extends BaseScene{
         int LehrerLeben = 10;
         int PlayerLeben = 10;
 
-        LehrerObject Lehrer = new LehrerObject(10, 10, FACHSCHAFT, LehrerLeben, 2);
+        LehrerObject Lehrer = new LehrerObject(600, 300, FACHSCHAFT, LehrerLeben, 2);
+        this.objects.add(Lehrer);
+        this.objects.add(PlayerObject.INSTANCE);
         PlayerObject.INSTANCE.x = 330;
         PlayerObject.INSTANCE.y = 295;
 
+        /*
         while (LehrerLeben > 0 && PlayerLeben > 0) {
             // Zuerst der Schüler
             int SchadenPlayer = PlayerObject.INSTANCE.angriff();
@@ -37,6 +40,14 @@ public class KampfScene extends BaseScene{
             SchadenGesamt = PlayerObject.INSTANCE.verteidigung(SchadenPlayer);
             PlayerLeben -= SchadenGesamt;
         }
+        */
+    }
+
+    public void update() {
+        super.update();
+
+        if(PlayerObject.INSTANCE.isClicked())
+            SceneStack.INSTANCE.push(new InventarScene());
     }
 
 }

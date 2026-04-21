@@ -33,8 +33,6 @@ public class KampfScene extends BaseScene{
         //Einfügen des Hintergrunds
         objects.add(new BackdropObject(Images.get("/assets/background/Kampfgang.png")));
 
-        objects.add(new ButtonObject(Images.get("/assets/minigames/general/button_exit.png"), 30, 30, SceneStack.INSTANCE::pop));
-
         imKampf = true;
 
         LehrerObject Lehrer = new LehrerObject(600, 300, FACHSCHAFT);
@@ -61,9 +59,6 @@ public class KampfScene extends BaseScene{
     @Override
     public void update() {
         super.update();
-        ItemType clicked = InventarScene.getClickedItem();
-        if(clicked != null)
-            System.out.println(clicked);
 
         if(timer > 0) {
             timer -= 1;

@@ -163,7 +163,7 @@ public class PlayerObject extends BaseObject{
     public void update(BaseScene scene) {
         // Inventar öffnen, wenn die Figur angeklickt wird
         if(allowInventory && isClicked())
-            SceneStack.INSTANCE.push(new InventarScene());
+            SceneStack.INSTANCE.push(new InventarScene(true));
 
         if(KampfScene.imKampf) {
             if(KampfScene.PlayerVerteidigung) {
@@ -178,6 +178,7 @@ public class PlayerObject extends BaseObject{
                     if(clicked != null) {
                         KampfScene.Endschaden = verteidigung(KampfScene.Zwischenschaden, clicked);
                         removeItem(clicked);
+                        InventarScene.rebuild();
                         KampfScene.PlayerVerteidigung = false;
                         KampfScene.PlayerTurn = true;
                         return;
@@ -190,6 +191,7 @@ public class PlayerObject extends BaseObject{
                     System.out.println("Du bist am Angreifen");
                     KampfScene.Zwischenschaden = angriff(clicked);
                     removeItem(clicked);
+                    InventarScene.rebuild();
                     KampfScene.PlayerTurn = false;
                     KampfScene.lehrerVerteidigung = true;
                 }

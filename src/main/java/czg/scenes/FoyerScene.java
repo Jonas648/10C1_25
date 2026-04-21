@@ -18,7 +18,7 @@ public class FoyerScene extends BaseScene{
         objects.add(new ButtonObject(Images.get("/assets/minigames/general/button_menu.png"),
                 () -> {
                     SceneStack.INSTANCE.push(new KampfScene("PHYSICS"));
-                    SceneStack.INSTANCE.push(new InventarScene());
+                    SceneStack.INSTANCE.push(new InventarScene(false));
                     PlayerObject.INSTANCE.allowInventory = false;
                 }));
 

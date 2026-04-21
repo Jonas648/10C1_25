@@ -40,30 +40,41 @@ public class InventarScene extends BaseScene {
 
     private final ButtonObject arrowDown;
 
+    private final boolean allowClosing;
+
     private int currentRow = 0;
 
     private final List<List<ItemObject>> rows = new ArrayList<>();
 
 
-    public InventarScene() {
+    public InventarScene(boolean allowClosing) {
         // Hintergrund
         objects.add(new BaseObject(Images.get("/assets/items/inventar.png"), iLeft, iTop, iWidth, iHeight));
 
-        // Button zum Schließen
-        ButtonObject exit = new ButtonObject (
-                Images.get("/assets/minigames/general/button_exit.png"),
-                SceneStack.INSTANCE::pop
-        );
 
-        exit.x = iLeft + iWidth - iPadding * 2 - exit.sprite.getWidth(null) * PIXEL_SCALE;
-        exit.y = iTop + (iHeight / 2) - (exit.sprite.getHeight(null) * PIXEL_SCALE )/2;
-        objects.add(exit);
+        final int right;
+
+        this.allowClosing = allowClosing;
+        if(allowClosing) {
+            // Button zum Schließen
+            ButtonObject exit = new ButtonObject(
+                    Images.get("/assets/minigames/general/button_exit.png"),
+                    SceneStack.INSTANCE::pop
+            );
+
+            exit.x = iLeft + iWidth - iPadding * 2 - exit.sprite.getWidth(null) * PIXEL_SCALE;
+            exit.y = iTop + (iHeight / 2) - (exit.sprite.getHeight(null) * PIXEL_SCALE) / 2;
+            objects.add(exit);
+            right = exit.x;
+        } else {
+            right = iLeft + iWidth - iPadding * 2;
+        }
 
         // Reihe nach oben
         arrowUp = new ButtonObject(Images.cropTransparency((BufferedImage) Images.get("/assets/background/PfeilOben.png")), () -> changeRow(-1));
         arrowDown = new ButtonObject(Images.cropTransparency((BufferedImage) Images.get("/assets/background/PfeilUnten.png")), () -> changeRow(1));
 
-        arrowUp.x = exit.x;
+        arrowUp.x = right;
         arrowUp.y = iTop + 40;
 
         arrowDown.x = arrowUp.x;
@@ -125,17 +136,18 @@ public class InventarScene extends BaseScene {
             rows.add(currentRow);
     }
 
-    public void rebuild() {
+    public static void rebuild() {
         if(INSTANCE == null)
             throw new RuntimeException("WIE");
 
+        InventarScene oldInv = INSTANCE;
         INSTANCE = null;
-        InventarScene newInv = new InventarScene();
+        InventarScene newInv = new InventarScene(oldInv.allowClosing);
         if(! newInv.rows.isEmpty()) {
-            final int newRowInBounds = Math.max(0, Math.min(newInv.rows.size()-1, this.currentRow));
+            final int newRowInBounds = Math.max(0, Math.min(newInv.rows.size()-1, oldInv.currentRow));
             newInv.changeRow(newRowInBounds);
         }
-        SceneStack.INSTANCE.replace(this, newInv);
+        SceneStack.INSTANCE.replace(oldInv, newInv);
     }
 
     private void changeRow(int by) {

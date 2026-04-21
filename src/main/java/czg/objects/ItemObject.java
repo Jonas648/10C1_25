@@ -11,6 +11,12 @@ public class ItemObject extends BaseObject {
     private final ItemType item;
     private final int count;
 
+    private static final Color[] LEVEL_COLORS = {
+            Color.ORANGE,
+            new Color(72, 194, 194),
+            new Color(221, 98, 159)
+    };
+
     public ItemObject(ItemType type, int count, int x, int y) {
         super(type.SPRITE, x, y);
 
@@ -45,5 +51,8 @@ public class ItemObject extends BaseObject {
 
         g.setColor(Color.WHITE);
         Draw.drawTextCentered(g, "x%d".formatted(count), x + width - PIXEL_SCALE, y + height + PIXEL_SCALE * 2, true);
+
+        g.setColor(LEVEL_COLORS[item.LEVEL]);
+        Draw.drawTextCentered(g, "Lv "+(item.LEVEL+1), x + PIXEL_SCALE, y + height + PIXEL_SCALE * 2, true);
     }
 }

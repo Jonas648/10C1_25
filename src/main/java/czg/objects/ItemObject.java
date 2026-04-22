@@ -49,8 +49,10 @@ public class ItemObject extends BaseObject {
             Draw.drawTextCentered(g, item.NAME, x + width / 2 - 1, y + height + 8 * PIXEL_SCALE - 1, true);
         }
 
-        g.setColor(Color.WHITE);
-        Draw.drawTextCentered(g, "x%d".formatted(count), x + width - PIXEL_SCALE, y + height + PIXEL_SCALE * 2, true);
+        if(count > 0) {
+            g.setColor(Color.WHITE);
+            Draw.drawTextCentered(g, "x%d".formatted(count), x + width - PIXEL_SCALE, y + height + PIXEL_SCALE * 2, true);
+        }
 
         g.setColor(LEVEL_COLORS[item.LEVEL]);
         Draw.drawTextCentered(g, "Lv "+(item.LEVEL+1), x + PIXEL_SCALE, y + height + PIXEL_SCALE * 2, true);

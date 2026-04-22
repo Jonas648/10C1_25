@@ -175,7 +175,6 @@ public class PlayerObject extends BaseObject{
                     KampfScene.PlayerLeben -= KampfScene.Endschaden;
                     KampfScene.PlayerVerteidigung = false;
                     KampfScene.PlayerTurn = true;
-                    return;
                 }
                 else {
                     if(KampfScene.clicked != null) {
@@ -186,11 +185,9 @@ public class PlayerObject extends BaseObject{
                         KampfScene.PlayerVerteidigung = false;
                         KampfScene.PlayerTurn = true;
                         KampfScene.timer = 0;
-                        return;
                     }
                 }
-            }
-            if (KampfScene.PlayerTurn) {
+            } else if (KampfScene.PlayerTurn) {
                 if(KampfScene.clicked != null) {
                     System.out.println("Du bist am Angreifen");
                     KampfScene.Zwischenschaden = angriff(KampfScene.clicked);
@@ -210,7 +207,7 @@ public class PlayerObject extends BaseObject{
         g.setColor(Color.WHITE);
         g.setFont(Draw.FONT_INFO);
         if(KampfScene.imKampf) {
-            String text = KampfScene.PlayerTurn ? "TURN" : "VERTEIDIGUNG";
+            String text = KampfScene.PlayerTurn ? "ANGRIFF" : "VERTEIDIGUNG";
             Draw.drawTextCentered(g, text, x + width / 2, y + height + 20, true);
 
             Draw.drawTextCentered(g, "HP: "+KampfScene.PlayerLeben, x + width  / 2, y + height + 40, true);

@@ -12,6 +12,8 @@ import java.awt.*;
 import java.util.List;
 import java.util.Random;
 
+import static czg.MainWindow.FPS;
+
 public class LehrerObject extends BaseObject{
 
     public final Department fachschaft;
@@ -21,6 +23,46 @@ public class LehrerObject extends BaseObject{
         super(getImage(fachschaft), x, y);
         this.fachschaft = fachschaft;
         lehrerItems = ItemType.getItems(fachschaft);
+    }
+
+    public static Image getImage(Department fachschaft) { // ordnet den Fachschaften die Lehrer mit Bild zu
+        if (fachschaft == Department.COMPUTER_SCIENCE) {
+
+            return Images.get("/assets/characters/bre.png");
+
+        } else if (fachschaft == Department.PHYSICS) {
+
+            return Images.get("/assets/characters/tno.png");
+
+        } else if (fachschaft == Department.MATHEMATICS) {
+
+            return Images.get("/assets/characters/gei.png");
+
+        } else if (fachschaft == Department.BIOLOGY) {
+
+            return Images.get("/assets/characters/kho.png");
+
+        } else if (fachschaft == Department.CHEMISTRY) {
+
+            return Images.get("/assets/characters/kko.png");
+        }
+
+        throw new IllegalArgumentException("Konnte der Fachschaft "+fachschaft+" kein Foto zuordnen!");
+    }
+
+    public static void addButtonObject(BaseScene scene, Department department, int x, int y) {
+        if(KampfScene.uebrigeLehrer.contains(department)) {
+            ButtonObject button = new ButtonObject(LehrerObject.getImage(department),
+                    () -> {
+                        SceneStack.INSTANCE.push(new KampfScene(department));
+                        SceneStack.INSTANCE.push(new InventarScene(false));
+                        PlayerObject.INSTANCE.allowInventory = false;
+                    });
+            button.x = x;
+            button.y = y;
+            button.includeTransparency = false;
+            scene.objects.add(button);
+        }
     }
 
     public int verteidigung(int level) {
@@ -36,9 +78,7 @@ public class LehrerObject extends BaseObject{
         }
         else {
             item_lehrer = lehrerItems.get(move - 1);
-            KampfScene.instance.objects.remove(KampfScene.currentItem);
-            KampfScene.currentItem = new ItemObject(item_lehrer, 1, x - width, y + height / 2);
-            KampfScene.instance.objects.add(KampfScene.currentItem);
+            displayItem(item_lehrer);
             schaden = level - item_lehrer.LEVEL;
             if (schaden <= 0) {
                 schaden = 0;
@@ -59,43 +99,20 @@ public class LehrerObject extends BaseObject{
         
         item_lehrer = lehrerItems.get(move);
         level = item_lehrer.LEVEL;
+
+        displayItem(item_lehrer);
         
         return level;
     }
-    
-    public static Image getImage(Department fachschaft) { // ordnet den Fachschaften die Lehrer mit Bild zu
-        if (fachschaft == Department.COMPUTER_SCIENCE) {
-            
-            return Images.get("/assets/characters/bre.png");
-                    
-        } else if (fachschaft == Department.PHYSICS) {
-             
-            return Images.get("/assets/characters/tno.png");
-            
-        } else if (fachschaft == Department.MATHEMATICS) {
-             
-            return Images.get("/assets/characters/gei.png");
-            
-        } else if (fachschaft == Department.BIOLOGY) {
 
-            return Images.get("/assets/characters/kho.png");
-            
-        } else if (fachschaft == Department.CHEMISTRY) {
-            
-            return Images.get("/assets/characters/kko.png");
+    public void displayItem(ItemType type) {
+        KampfScene.instance.objects.remove(KampfScene.currentItem);
+        if(type != null) {
+            KampfScene.currentItem = new ItemObject(type, 0, x - width, y + height / 2);
+            KampfScene.instance.objects.add(KampfScene.currentItem);
+        } else {
+            KampfScene.currentItem = null;
         }
-        
-        throw new IllegalArgumentException("Konnte der Fachschaft "+fachschaft+" kein Foto zuordnen!");
-    }
-
-    public static void addButtonObject(BaseScene scene, Department department) {
-        if(KampfScene.uebrigeLehrer.contains(department))
-            scene.objects.add(new ButtonObject(LehrerObject.getImage(department),
-                () -> {
-                    SceneStack.INSTANCE.push(new KampfScene(department));
-                    SceneStack.INSTANCE.push(new InventarScene(false));
-                    PlayerObject.INSTANCE.allowInventory = false;
-            }));
     }
 
     @Override
@@ -127,7 +144,7 @@ public class LehrerObject extends BaseObject{
         g.setColor(Color.WHITE);
         g.setFont(Draw.FONT_INFO);
         if(KampfScene.imKampf) {
-            String text = KampfScene.lehrerTurn ? "TURN" : "VERTEIDIGUNG";
+            String text = KampfScene.lehrerTurn ? "ANGRIFF" : "VERTEIDIGUNG";
             Draw.drawTextCentered(g, text, x + width / 2, y + height + 20, true);
 
             Draw.drawTextCentered(g, "HP: "+KampfScene.LehrerLeben, x + width  / 2, y + height + 40, true);

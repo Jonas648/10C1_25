@@ -51,7 +51,6 @@ public class InventarScene extends BaseScene {
         // Hintergrund
         objects.add(new BaseObject(Images.get("/assets/items/inventar.png"), iLeft, iTop, iWidth, iHeight));
 
-
         final int right;
 
         this.allowClosing = allowClosing;
@@ -137,8 +136,9 @@ public class InventarScene extends BaseScene {
     }
 
     public static void rebuild() {
-        if(INSTANCE == null)
-            throw new RuntimeException("WIE");
+        if(INSTANCE == null) {
+            return;
+        }
 
         InventarScene oldInv = INSTANCE;
         INSTANCE = null;
@@ -148,6 +148,7 @@ public class InventarScene extends BaseScene {
             newInv.changeRow(newRowInBounds);
         }
         SceneStack.INSTANCE.replace(oldInv, newInv);
+        INSTANCE = newInv;
     }
 
     private void changeRow(int by) {

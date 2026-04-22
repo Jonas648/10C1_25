@@ -65,7 +65,7 @@ public class PfeilObject extends BaseObject{
     
     @Override
     public void update(BaseScene scene) {
-        if(isClicked()){
+        if(isClicked(false)){
             BaseScene neu = target.get();
             SceneStack.INSTANCE.replace(origin, neu);
         }

@@ -25,6 +25,7 @@
 		\begin{itemize}
 			\item Mehrere Szenen übereinander
 		\end{itemize}
+		\item Sound
 	\end{itemize}
 \end{frame}
 
@@ -40,8 +41,13 @@
 \begin{frame}
 	\frametitle{Hauptschleife}
 	\begin{itemize}
+		\item Endlosschleife
 		\item Zähler: Um seit dem letzten Durchlauf vergangene Zeit erhöhen
 		\item Erreicht $\frac{1}{60}s$: Durchlauf der Logik und Grafik
+		\begin{itemize}
+			\item Alle Szenen bzw. Objekte
+			\item Tastaturkürzel
+		\end{itemize}
 	\end{itemize}
 \end{frame}
 
@@ -52,8 +58,8 @@
 		\item Methoden:
 		\begin{itemize}
 			\item \texttt{update}
-			\item \texttt{draw}
 			\item \texttt{unload}
+			\item \texttt{draw}
 			\item \texttt{isClicked}
 		\end{itemize}
 	\end{itemize}
@@ -78,8 +84,7 @@
 	\frametitle{Szenenstapel}
 	\begin{itemize}
 		\item Liste von Szenen (\texttt{BaseScene}-Instanzen)
-		\item Ausführen von \texttt{update}
-		\item Ausführen von \texttt{draw}
+		\item Ausführen von \texttt{update}, \texttt{draw} und \texttt{unload}
 		\item Anwenden von Verdeckungs-Einstellungen
 	\end{itemize}
 \end{frame}
@@ -99,4 +104,13 @@
 			\item[] ... ihren Ton abspielen?
 		\end{itemize}
 	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\begin{center}
+		\begin{figure}
+			\includegraphics[width=0.4\textwidth]{bilder/Verdecken.drawio.png}
+			\caption{Beispiel Verdeckungs-Einstellungen}
+		\end{figure}
+	\end{center}
 \end{frame}
